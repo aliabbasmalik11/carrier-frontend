@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select'
 import ClipLoader from "react-spinners/ClipLoader";
+import { toast } from 'react-toastify';
 
 import './app.scss';
 
@@ -19,9 +20,11 @@ function App() {
 
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [infoFlag, setInfoFlag] = useState(false);
+
 
   useEffect(() => {
-    getTypess();
+    getTypes();
     getStates();
   }, []);
 
@@ -33,7 +36,7 @@ function App() {
     setStates([...data?.states])
   }
 
-  const getTypess = async () => {
+  const getTypes = async () => {
     setTypeLoader(true);
     const data = await getInsuranceTypesApi({
       onFinally: () => setTypeLoader(false)
@@ -42,10 +45,12 @@ function App() {
   }
 
   const getRecords = async () => {
-    setLoading(true)
+    setLoading(true);
+    setInfoFlag(true);
     const data = await getRecordsApi({
       data: {state: selectedState, type: selectedType},
-      onFinally: () => setLoading(false)
+      onFinally: () => setLoading(false),
+      onFailure: () => {toast.error("Something went wrong")},
     });
     setRecords([...data?.records]);
   }
@@ -83,10 +88,10 @@ function App() {
             isLoading={stetesLoader}
           />
         </div>
+        <button onClick={getRecords} className="sumbit-button">get records</button>
       </div>
-      <button onClick={getRecords} className="sumbit-button">get records</button>
 
-      <RecordsTable {...{records}}/>
+      <RecordsTable {...{records, infoFlag, loading}}/>
     </div>
   );
 }

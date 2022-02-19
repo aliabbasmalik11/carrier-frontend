@@ -12,11 +12,11 @@
     margin-bottom: 50px;
 
     .type-select-banner{
-      width: 50%;
+      width: calc(50% - 110px);
     }
 
     .state-select-banner{
-      width: 50%;
+      width: calc(50% - 110px);
     }
   }
 
@@ -29,7 +29,8 @@
   }
 
   .sumbit-button{
-    padding: 10px 50px;
+    width: 200px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -7,20 +7,29 @@
   }
 
   .customers{
-    border: 1px solid;
-    width: 100%;
+    box-shadow: 0 0 10px #747474;
     border-collapse: collapse;
+    border-radius: 1em;
+    overflow: hidden;
+
+    width: 100%;
+    border: 1px solid;
+
+    th, td {
+      padding: 8px 10px;
+      border: 1px solid;
+    }
 
     .table-title{
       font-weight: 600;
       font-size: 20px;
     }
-
-    .table-row{
-      border-bottom: 1px solid;
-      td{
-        padding: 5px 10px;
-      }
-    }
+  }
+  .info-message{
+    color: #034c03c9;
+    font-size: 20px;
+    margin-top: 20px;
+    text-align: center;
   }
 }
+
