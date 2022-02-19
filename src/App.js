@@ -46,12 +46,17 @@ function App() {
   }
 
   const getRecords = async () => {
+    if(!selectedState || !selectedType){
+      toast.info('Please select insurance type and state.');
+      return;
+    }
     setLoading(true);
     setInfoFlag(true);
     const data = await getRecordsApi({
       data: {state: selectedState, type: selectedType},
-      onFinally: () => {setLoading(false); setError(false)},
+      onSuccess: () => setError(false),
       onFailure: () => {toast.error("Something went wrong"); setError(true); setRecords([])},
+      onFinally: () => setLoading(false),
     });
     setRecords([...data?.records]);
   }
@@ -73,6 +78,7 @@ function App() {
       <div className='selects-banner'>
         <div className='type-select-banner'>
           <Select 
+            placeholder='Insurance Type'
             options={types}
             getOptionLabel={option => option.name}
             getOptionValue={option => option.name}
@@ -82,6 +88,7 @@ function App() {
         </div>
         <div className='state-select-banner'>
           <Select 
+            placeholder='State'
             options={states}
             getOptionLabel={option => option.name}
             getOptionValue={option => option.abbreviation}
