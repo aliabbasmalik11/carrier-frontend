@@ -21,6 +21,7 @@ function App() {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(false);
   const [infoFlag, setInfoFlag] = useState(false);
+  const [error, setError] = useState(false);
 
 
   useEffect(() => {
@@ -49,8 +50,8 @@ function App() {
     setInfoFlag(true);
     const data = await getRecordsApi({
       data: {state: selectedState, type: selectedType},
-      onFinally: () => setLoading(false),
-      onFailure: () => {toast.error("Something went wrong")},
+      onFinally: () => {setLoading(false); setError(false)},
+      onFailure: () => {toast.error("Something went wrong"); setError(true); setRecords([])},
     });
     setRecords([...data?.records]);
   }
@@ -91,7 +92,7 @@ function App() {
         <button onClick={getRecords} className="sumbit-button">get records</button>
       </div>
 
-      <RecordsTable {...{records, infoFlag, loading}}/>
+      <RecordsTable {...{records, infoFlag, loading, error}}/>
     </div>
   );
 }

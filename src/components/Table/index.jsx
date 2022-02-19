@@ -1,31 +1,33 @@
 import './styles.scss'
 
-function RecordsTable({records, infoFlag, loading}) {
+function RecordsTable({records, infoFlag, loading, error}) {
   return (
     <div className='records-table-banner'>
       <div className='title'>Matched Carriers</div>
 
-      <table className="customers">
-        <thead>
-          <tr className='table-row'>
-            <td className='table-title'>Id</td>
-            <td className='table-title'>Matched Carrier</td>
-          </tr>
-        </thead>
-        <tbody>
+      <div className="customers">
+        <div className='head'>
+          <div className='table-title record-id'>#</div>
+          <div className='table-title record-name'>Carrier name</div>
+        </div>
+        <div className='body'>
           {records?.map((record, index) => (
-            <tr key={index} className='table-row'>
-              <td>
+            <div key={index} className='table-row'>
+              <div className='record-id'>
                 {record?.id}
-              </td>
-              <td>
+              </div>
+              <div className='record-name'>
                 {record?.Carrier?.name}
-              </td>
-            </tr>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
-      {!loading && infoFlag && records?.length === 0 && <div className='info-message'>Not found any matched Carriers</div>}
+          {records?.length === 0 && (
+            <div className='info-message'>
+              {!loading && infoFlag && !error &&<div>Not found any matched Carriers</div>}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
